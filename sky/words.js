@@ -1,0 +1,188 @@
+// Clue Quest word sets: English for Czech students, about A1–A2. Every entry: [word, description, wrong, wrong].
+// The description never uses the word. The two wrong answers come from the same topic, so the clue has to be read.
+
+export const SETS = [
+  { id: 'animals', title: 'Animals', level: 'A1', icon: 'reindeer', hat: 'none', words: [
+    ['dog', 'A pet that barks. It likes to play with a ball and go for walks.', 'cat', 'rabbit'],
+    ['cat', 'A small pet with soft fur. It says "meow" and likes to sleep a lot.', 'dog', 'mouse'],
+    ['horse', 'A big, strong animal. People can ride on its back.', 'cow', 'donkey'],
+    ['cow', 'A farm animal that gives us milk. It says "moo".', 'horse', 'sheep'],
+    ['rabbit', 'A small animal with long ears. It hops and loves carrots.', 'mouse', 'squirrel'],
+    ['elephant', 'A very big grey animal with big ears and a long nose.', 'hippo', 'rhino'],
+    ['giraffe', 'A very tall animal with a long neck. It eats leaves from high trees.', 'camel', 'zebra'],
+    ['lion', 'A big wild cat. The male has lots of hair around his head.', 'tiger', 'bear'],
+    ['monkey', 'A funny animal that climbs trees and loves bananas.', 'parrot', 'squirrel'],
+    ['penguin', 'A black and white bird. It cannot fly, but it swims very well in cold water.', 'owl', 'duck'],
+    ['bee', 'A small insect, yellow and black. It makes honey.', 'butterfly', 'spider'],
+    ['snake', 'A long animal with no legs. Some are dangerous.', 'lizard', 'worm'],
+    ['frog', 'A small green animal. It jumps and lives near water.', 'turtle', 'lizard'],
+    ['owl', 'A bird with big eyes. It is awake at night.', 'parrot', 'eagle'],
+    ['shark', 'A big fish with very sharp teeth. It lives in the sea.', 'dolphin', 'whale'],
+    ['turtle', 'A slow animal with a hard shell on its back.', 'snail', 'frog'],
+    ['camel', 'An animal that lives in the desert. It has one or two humps on its back.', 'giraffe', 'horse'],
+    ['parrot', 'A colourful bird. It can learn to say words.', 'owl', 'penguin'],
+  ] },
+  { id: 'food', title: 'Food and drink', level: 'A1', icon: 'gummy', hat: 'santa', words: [
+    ['bread', 'We buy it at a bakery. We make sandwiches with it.', 'cheese', 'cake'],
+    ['cheese', 'A yellow or white food made from milk. Mice love it in cartoons.', 'butter', 'bread'],
+    ['apple', 'A round fruit. It can be red or green.', 'pear', 'orange'],
+    ['banana', 'A long yellow fruit. Monkeys love it.', 'lemon', 'pear'],
+    ['carrot', 'A long orange vegetable. Rabbits love it.', 'potato', 'tomato'],
+    ['soup', 'A hot food that we eat with a spoon from a bowl.', 'salad', 'sauce'],
+    ['pizza', 'A flat round food from Italy with tomato and cheese on top.', 'pasta', 'sandwich'],
+    ['ice cream', 'A cold, sweet food. We eat it in summer. It can melt!', 'chocolate', 'yoghurt'],
+    ['egg', 'Chickens give us this food. It has a shell.', 'potato', 'cheese'],
+    ['milk', 'A white drink from cows.', 'water', 'juice'],
+    ['tea', 'A hot drink. People in England love it, often with milk.', 'coffee', 'cocoa'],
+    ['chocolate', 'A sweet brown food. It is made from cocoa.', 'honey', 'cake'],
+    ['sandwich', 'Two pieces of bread with ham or cheese between them.', 'pizza', 'hot dog'],
+    ['potato', 'A vegetable that grows under the ground. We make chips from it.', 'carrot', 'onion'],
+    ['honey', 'A sweet, sticky, golden food. Bees make it.', 'jam', 'sugar'],
+    ['rice', 'Small white grains. People in China and Japan eat it every day.', 'pasta', 'flour'],
+    ['strawberry', 'A small red fruit with little seeds on the outside.', 'cherry', 'tomato'],
+    ['salt', 'It is white and we put it on chips. It is not sweet!', 'sugar', 'pepper'],
+  ] },
+  { id: 'school', title: 'At school', level: 'A1', icon: 'pix', hat: 'none', words: [
+    ['teacher', 'This person helps you learn in the classroom.', 'student', 'doctor'],
+    ['pencil', 'You write and draw with it. You can rub out what you write.', 'pen', 'crayon'],
+    ['rubber', 'A small thing you use to take away pencil mistakes.', 'ruler', 'pencil case'],
+    ['ruler', 'You use it to draw straight lines and to measure.', 'rubber', 'calculator'],
+    ['schoolbag', 'You carry your books to school in it on your back.', 'pencil case', 'wallet'],
+    ['dictionary', 'A book that tells you what words mean.', 'notebook', 'magazine'],
+    ['timetable', 'It shows which lessons you have and when.', 'calendar', 'menu'],
+    ['homework', 'Work the teacher gives you to do at home.', 'housework', 'test'],
+    ['classroom', 'The room at school where you have lessons.', 'library', 'gym'],
+    ['scissors', 'You use them to cut paper.', 'glue', 'knife'],
+    ['glue', 'You use it to stick paper together.', 'scissors', 'tape'],
+    ['calculator', 'A small machine that does maths for you.', 'computer', 'ruler'],
+    ['break', 'A short free time between lessons.', 'lesson', 'holiday'],
+    ['library', 'A place with lots of books. You can borrow them.', 'bookshop', 'classroom'],
+    ['test', 'The teacher checks what you know. You get a mark.', 'homework', 'lesson'],
+    ['notebook', 'A book with empty pages. You write your notes in it.', 'dictionary', 'textbook'],
+    ['pencil case', 'A small bag or box for your pens and pencils.', 'schoolbag', 'lunch box'],
+    ['map', 'A picture of a country or city. It shows where places are.', 'photo', 'poster'],
+  ] },
+  { id: 'home', title: 'At home', level: 'A1', icon: 'stella', hat: 'beanie', words: [
+    ['kitchen', 'The room where we cook food.', 'bathroom', 'dining room'],
+    ['bathroom', 'The room where you have a shower and clean your teeth.', 'kitchen', 'bedroom'],
+    ['bedroom', 'The room where you sleep.', 'living room', 'bathroom'],
+    ['sofa', 'A long soft seat for two or three people in the living room.', 'bed', 'armchair'],
+    ['fridge', 'It keeps food and drinks cold.', 'oven', 'cupboard'],
+    ['oven', 'It gets very hot. We bake cakes and pizza in it.', 'fridge', 'sink'],
+    ['mirror', 'You look in it and you see yourself.', 'window', 'picture'],
+    ['window', 'It is made of glass. You can look outside through it.', 'door', 'mirror'],
+    ['stairs', 'You walk up them to go to the next floor.', 'lift', 'roof'],
+    ['garden', 'The place outside the house with grass and flowers.', 'garage', 'balcony'],
+    ['lamp', 'It gives light when it is dark.', 'clock', 'radio'],
+    ['shower', 'Water comes down on you from above and you get clean.', 'bath', 'sink'],
+    ['wardrobe', 'A tall cupboard where you keep your clothes.', 'bookcase', 'fridge'],
+    ['pillow', 'A soft thing for your head when you sleep.', 'blanket', 'carpet'],
+    ['clock', 'It shows you what time it is.', 'calendar', 'lamp'],
+    ['key', 'A small metal thing. You open the door with it.', 'lock', 'coin'],
+    ['washing machine', 'It washes your dirty clothes.', 'dishwasher', 'fridge'],
+    ['roof', 'The top part of a house. It keeps the rain out.', 'wall', 'floor'],
+  ] },
+  { id: 'jobs', title: 'Jobs', level: 'A2', icon: 'rob', hat: 'tophat', words: [
+    ['doctor', 'This person helps you when you are ill.', 'nurse', 'dentist'],
+    ['farmer', 'This person grows food and looks after cows and sheep.', 'gardener', 'vet'],
+    ['firefighter', 'This person is brave and puts out fires.', 'police officer', 'pilot'],
+    ['police officer', 'This person helps keep people safe and catches thieves.', 'firefighter', 'soldier'],
+    ['pilot', 'This person flies a plane.', 'driver', 'astronaut'],
+    ['chef', 'This person cooks food in a restaurant.', 'waiter', 'baker'],
+    ['waiter', 'This person brings food to your table in a restaurant.', 'chef', 'shop assistant'],
+    ['dentist', 'This person looks after your teeth.', 'doctor', 'nurse'],
+    ['vet', 'This person is a doctor for animals.', 'farmer', 'dentist'],
+    ['hairdresser', 'This person cuts and washes your hair.', 'designer', 'dentist'],
+    ['builder', 'This person builds houses and walls.', 'farmer', 'mechanic'],
+    ['shop assistant', 'This person works in a shop and helps you buy things.', 'waiter', 'manager'],
+    ['bus driver', 'This person drives people around the town.', 'pilot', 'mechanic'],
+    ['artist', 'This person paints pictures.', 'photographer', 'writer'],
+    ['singer', 'This person sings songs, maybe on TV or at concerts.', 'actor', 'dancer'],
+    ['mechanic', 'This person repairs cars.', 'builder', 'driver'],
+    ['astronaut', 'This person travels into space in a rocket.', 'pilot', 'scientist'],
+    ['baker', 'This person gets up early to make bread and cakes.', 'chef', 'farmer'],
+  ] },
+  { id: 'nature', title: 'Weather and nature', level: 'A2', icon: 'owl', hat: 'earmuffs', words: [
+    ['sun', 'It is hot and bright and in the sky in the day.', 'moon', 'star'],
+    ['rain', 'Water that falls from the clouds. You need an umbrella.', 'snow', 'wind'],
+    ['snow', 'Cold and white, it falls from the sky in winter. Children love to play in it.', 'ice', 'rain'],
+    ['wind', 'Moving air. It can blow your hat away.', 'storm', 'fog'],
+    ['cloud', 'A white or grey thing in the sky. Rain comes from it.', 'smoke', 'fog'],
+    ['rainbow', 'An arch of seven colours in the sky after the rain.', 'sunset', 'lightning'],
+    ['storm', 'Very bad weather with strong wind, rain and thunder.', 'cloud', 'wind'],
+    ['fog', 'A thick grey cloud near the ground. You cannot see far.', 'smoke', 'snow'],
+    ['forest', 'A place with lots and lots of trees.', 'park', 'garden'],
+    ['river', 'Water that moves across the land to the sea. The Vltava is one.', 'lake', 'pond'],
+    ['mountain', 'A very high hill. People climb it. Sněžka is one.', 'hill', 'volcano'],
+    ['lake', 'A big area of water with land all around it.', 'river', 'sea'],
+    ['beach', 'The sand next to the sea. People swim and relax there.', 'desert', 'island'],
+    ['island', 'A piece of land with water all around it.', 'beach', 'lake'],
+    ['desert', 'A very hot and dry place with lots of sand.', 'beach', 'jungle'],
+    ['flower', 'A pretty, colourful part of a plant. Bees visit it.', 'leaf', 'tree'],
+    ['volcano', 'A mountain with fire and hot rock inside it.', 'mountain', 'cave'],
+    ['moon', 'You can see it in the sky at night. It goes round the Earth.', 'sun', 'star'],
+  ] },
+  { id: 'sports', title: 'Sports and hobbies', level: 'A2', icon: 'foxino', hat: 'beanie', words: [
+    ['football', 'Two teams kick a ball and try to score goals.', 'basketball', 'hockey'],
+    ['swimming', 'You do this sport in water, in a pool or the sea.', 'diving', 'sailing'],
+    ['tennis', 'Two players hit a small yellow ball over a net with a racket.', 'badminton', 'golf'],
+    ['skiing', 'You go down a snowy mountain on two long boards.', 'skating', 'cycling'],
+    ['cycling', 'You ride a bike, maybe in a race.', 'running', 'skiing'],
+    ['basketball', 'You throw a big orange ball into a high basket.', 'volleyball', 'football'],
+    ['dancing', 'You move your body to music.', 'singing', 'running'],
+    ['painting', 'You make pictures with colours and a brush.', 'drawing', 'photography'],
+    ['reading', 'You do this with books and stories.', 'writing', 'painting'],
+    ['chess', 'A game for two players with a king, a queen and a black and white board.', 'cards', 'football'],
+    ['camping', 'You sleep in a tent outside, maybe in a forest.', 'hiking', 'fishing'],
+    ['fishing', 'You sit next to a river or a lake and try to catch fish.', 'swimming', 'camping'],
+    ['running', 'You move fast on your feet, maybe in a race.', 'walking', 'cycling'],
+    ['ice hockey', 'Two teams play on ice with sticks and a small black puck. Czechs love it!', 'skating', 'football'],
+    ['volleyball', 'Two teams hit a ball over a high net with their hands.', 'tennis', 'basketball'],
+    ['singing', 'You use your voice to make music.', 'dancing', 'talking'],
+    ['skateboarding', 'You ride on a small board with four wheels.', 'skiing', 'cycling'],
+    ['gaming', 'You play video games on a computer or a console.', 'reading', 'chess'],
+  ] },
+  { id: 'clothes', title: 'Clothes', level: 'A1', icon: 'penguin', hat: 'santa', words: [
+    ['hat', 'You wear it on your head.', 'scarf', 'gloves'],
+    ['scarf', 'A long warm thing you wear around your neck in winter.', 'hat', 'tie'],
+    ['gloves', 'They keep your hands warm. They have fingers.', 'socks', 'scarf'],
+    ['shoes', 'You wear them on your feet when you go outside.', 'socks', 'gloves'],
+    ['boots', 'Big, strong shoes. You wear them in snow or rain.', 'shoes', 'slippers'],
+    ['jacket', 'A short coat. You wear it over your T-shirt when it is cool.', 'shirt', 'dress'],
+    ['T-shirt', 'A light top with short sleeves. You wear it in summer.', 'jumper', 'shirt'],
+    ['dress', 'Girls and women wear it. It is a top and a skirt in one.', 'skirt', 'coat'],
+    ['skirt', 'Girls and women wear it from the waist down. It has no legs.', 'dress', 'trousers'],
+    ['jeans', 'Blue trousers. Many people wear them every day.', 'shorts', 'tights'],
+    ['socks', 'You wear them on your feet inside your shoes.', 'gloves', 'slippers'],
+    ['jumper', 'A warm top with long sleeves, often made of wool.', 'T-shirt', 'jacket'],
+    ['pyjamas', 'Soft clothes you wear in bed.', 'tracksuit', 'swimsuit'],
+    ['swimsuit', 'You wear it at the swimming pool or on the beach.', 'pyjamas', 'shorts'],
+    ['belt', 'You wear it around your waist. It holds up your trousers.', 'tie', 'scarf'],
+    ['sunglasses', 'You wear them on your eyes when the sun is very bright.', 'glasses', 'hat'],
+    ['shorts', 'Short trousers for hot days.', 'jeans', 'skirt'],
+    ['slippers', 'Soft shoes you wear at home.', 'boots', 'socks'],
+  ] },
+];
+export const setById = (id) => SETS.find((s) => s.id === id);
+
+// a teacher's own words: one per line, "word ; description ; wrong ; wrong" (the wrong answers are optional:
+// missing ones are taken from the other words in the list). Returns { words, errors }.
+export function parseCustom(text) {
+  const words = [], errors = [];
+  String(text || '').split(/\r?\n/).forEach((line, i) => {
+    if (!line.trim()) return;
+    const p = line.split(/[;|\t]/).map((s) => s.trim());
+    if (!p[0] || !p[1]) { errors.push(`Line ${i + 1}: write the word, then ";", then its description.`); return; }
+    words.push([p[0], p[1], p[2] || '', p[3] || '']);
+  });
+  for (const w of words) {
+    const others = words.map((x) => x[0]).filter((x) => x.toLowerCase() !== w[0].toLowerCase());
+    for (const k of [2, 3]) if (!w[k]) {
+      const pick = others.filter((x) => x !== w[2] && x !== w[3]);
+      w[k] = pick.length ? pick[Math.floor(Math.random() * pick.length)] : '';
+    }
+  }
+  const usable = words.filter((w) => w[2] && w[3] && new Set([w[0], w[2], w[3]].map((s) => s.toLowerCase())).size === 3);
+  if (words.length && usable.length < words.length) errors.push('Some words need two different wrong answers (or more words in the list).');
+  return { words: usable, errors };
+}
