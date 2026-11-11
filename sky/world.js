@@ -71,10 +71,20 @@ export const FORESTS = [
   { x: -700, z: -200, r: 130 }, { x: 650, z: 80, r: 120 },
 ];
 
-function paintGround() {
-  const c = document.createElement('canvas'); c.width = c.height = TEX;
+// paintGround(): the whole disc on one TEX × TEX canvas. paintGround({ size, cx, cz, extent }) paints the same
+// landscape (the same fields, roads, lake, forests) for a square of 'extent' metres around (cx, cz) on a size × size
+// canvas, so a much sharper copy of the middle of the map can lie over the big one; that copy also gets the small
+// things a low fall shows: fine crop rows, texture in every field, hedgerow trees and farmhouses.
+function paintGround(o) {
+  const size = o ? o.size : TEX;
+  const c = document.createElement('canvas'); c.width = c.height = size;
   const g = c.getContext('2d');
   const R = rng(7);
+  // all the drawing below is in the big canvas's pixels; the transform maps them onto this canvas
+  const k = o ? size / o.extent : TEX / (2 * DISC_R), s = k * (2 * DISC_R) / TEX;
+  if (o) g.setTransform(s, 0, 0, s, size / 2 - (DISC_R + o.cx) * k, size / 2 - (DISC_R + o.cz) * k);
+  const fine = s > 2;   // a detail canvas: draw the small things too
+  const D = rng(99), fields = [];
   g.fillStyle = '#86c45a'; g.fillRect(0, 0, TEX, TEX);
   // patchwork fields on a slightly rotated grid
   const cols = ['#e7cb5c', '#a7d65e', '#74be4b', '#5aa340', '#c09359', '#b2d36a', '#dcb54e', '#93c957', '#a58ad6', '#6cb44a', '#d8a35a'];
@@ -86,6 +96,7 @@ function paintGround() {
       const px = x * cell + (R() - 0.5) * 6, py = y * cell + (R() - 0.5) * 6;
       const col = cols[Math.floor(R() * cols.length)];
       g.fillStyle = col; g.fillRect(px, py, w - 2, h - 2);
+      if (fine) fields.push([px, py, w, h, col]);
       // crop rows
       g.strokeStyle = 'rgba(255,255,255,0.13)'; g.lineWidth = 1;
       const vertical = R() < 0.5;
@@ -96,10 +107,42 @@ function paintGround() {
       }
     }
   }
+  // the detail canvas: a soft texture in every field, fine crop rows, tractor tracks
+  // only paint the small things where this canvas actually is (the map transform here includes the field grid's turn)
+  const M = g.getTransform(), vis = (x, y, m = 60) => { const q = M.transformPoint({ x, y }); return q.x > -m && q.y > -m && q.x < size + m && q.y < size + m; };
+  if (fine) {
+    const lw = 1 / s;   // one canvas pixel
+    for (const [px, py, w, h, col] of fields) {
+      if (!vis(px + w / 2, py + h / 2, w * s)) continue;
+      if (D() < .5) { g.fillStyle = 'rgba(255,255,255,.07)'; for (let i = 0; i < w * h / 6; i++) g.fillRect(px + D() * (w - 2), py + D() * (h - 2), .35 + D() * .6, .35 + D() * .6); }
+      g.fillStyle = 'rgba(30,60,20,.08)'; for (let i = 0; i < w * h / 7; i++) g.fillRect(px + D() * (w - 2), py + D() * (h - 2), .3 + D() * .5, .3 + D() * .5);
+      const vert = D() < .5, sp = 1.1 + D() * .8;
+      g.strokeStyle = col === '#e7cb5c' || col === '#dcb54e' ? 'rgba(160,110,40,.22)' : 'rgba(20,70,20,.16)'; g.lineWidth = lw * 1.3;
+      g.beginPath();
+      for (let q = sp; q < (vert ? w : h) - 2; q += sp) { if (vert) { g.moveTo(px + q, py + .5); g.lineTo(px + q, py + h - 2.5); } else { g.moveTo(px + .5, py + q); g.lineTo(px + w - 2.5, py + q); } }
+      g.stroke();
+      if (D() < .25) { g.strokeStyle = 'rgba(120,90,50,.3)'; g.lineWidth = lw * 2; g.beginPath(); g.moveTo(px + 1, py + D() * h); g.quadraticCurveTo(px + w / 2, py + D() * h, px + w - 3, py + D() * h); g.stroke(); }
+    }
+  }
   // hedges between fields
   g.strokeStyle = 'rgba(40,90,30,0.55)'; g.lineWidth = 2;
   for (let y = -6; y < TEX / cell + 6; y += 2) { g.beginPath(); g.moveTo(-400, y * cell - 1); g.lineTo(TEX + 400, y * cell - 1); g.stroke(); }
   for (let x = -6; x < TEX / cell + 6; x += 3) { g.beginPath(); g.moveTo(x * cell - 1, -400); g.lineTo(x * cell - 1, TEX + 400); g.stroke(); }
+  // the detail canvas: trees along the hedges (a dark shadow, then the crown and a light top)
+  if (fine) {
+    const tree = (x, y, r) => { g.fillStyle = 'rgba(20,50,20,.35)'; g.beginPath(); g.arc(x + r * .35, y + r * .35, r, 0, 7); g.fill(); g.fillStyle = D() < .5 ? '#2f7a35' : '#3a8a3a'; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); g.fillStyle = 'rgba(160,220,110,.45)'; g.beginPath(); g.arc(x - r * .3, y - r * .3, r * .45, 0, 7); g.fill(); };
+    for (let y = -6; y < TEX / cell + 6; y += 2) for (let x = -400; x < TEX + 400; x += 1.2 + D() * 6) if (D() < .55 && vis(x, y * cell)) tree(x, y * cell - 1 + (D() - .5) * 1.2, .5 + D() * .7);
+    for (let x = -6; x < TEX / cell + 6; x += 3) for (let y = -400; y < TEX + 400; y += 1.2 + D() * 6) if (D() < .55 && vis(x * cell, y)) tree(x * cell - 1 + (D() - .5) * 1.2, y, .5 + D() * .7);
+    // farmhouses with red and grey roofs at field corners, each with a little yard
+    for (let i = 0; i < 3000; i++) {
+      const x = (D() * (TEX + 600)) - 300, y = (D() * (TEX + 600)) - 300, wdt = 2.2 + D() * 1.8, hgt = 1.4 + D() * 1.1, roof = D() < .65 ? '#c8553f' : '#7d7f8f';
+      if (!vis(x, y)) continue;
+      g.fillStyle = 'rgba(214,200,160,.9)'; g.fillRect(x - 1, y - 1, wdt + 3, hgt + 2.5);
+      g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x + .4, y + .4, wdt, hgt);
+      g.fillStyle = roof; g.fillRect(x, y, wdt, hgt);
+      g.fillStyle = 'rgba(255,255,255,.25)'; g.fillRect(x, y, wdt, hgt / 2);
+    }
+  }
   g.restore();
 
   // the landing meadow (big soft green circle) around the target
@@ -147,6 +190,13 @@ function paintGround() {
   const grd = g.createRadialGradient(TEX / 2, TEX / 2, TEX * 0.4, TEX / 2, TEX / 2, TEX * 0.5);
   grd.addColorStop(0, 'rgba(110,170,80,0)'); grd.addColorStop(1, 'rgba(110,170,80,1)');
   g.fillStyle = grd; g.fillRect(0, 0, TEX, TEX);
+  // the detail canvas fades out at its edges into the big map underneath
+  if (o) {
+    g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = 'destination-in';
+    const m = g.createRadialGradient(size / 2, size / 2, size * .36, size / 2, size / 2, size * .5);
+    m.addColorStop(0, 'rgba(0,0,0,1)'); m.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = m; g.fillRect(0, 0, size, size); g.globalCompositeOperation = 'source-over';
+  }
   return c;
 }
 
@@ -231,17 +281,29 @@ function treeGeos() {
   return { conifer, round };
 }
 
-export function makeWorld(scene) {
+export function makeWorld(scene, renderer) {
+  const aniso = renderer ? renderer.capabilities.getMaxAnisotropy() : 4;
+  const big = renderer ? renderer.capabilities.maxTextureSize >= 8192 && !matchMedia('(pointer: coarse)').matches : false;
   const world = new THREE.Group();
   scene.add(world);
   const R = rng(42);
 
   // inner painted disc
-  const groundTex = new THREE.CanvasTexture(paintGround());
+  const t1 = performance.now(), groundCanvas = paintGround(); (window.SKYPAINT ||= {}).ground = Math.round(performance.now() - t1);
+  const groundTex = new THREE.CanvasTexture(groundCanvas);
   groundTex.colorSpace = THREE.SRGBColorSpace;
-  groundTex.anisotropy = 4;
+  groundTex.anisotropy = aniso;
   const disc = new THREE.Mesh(new THREE.CircleGeometry(DISC_R, 96).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ map: groundTex }));
   world.add(disc);
+  // the sharp middle: the same landscape at 0.2–0.4 m per pixel (4096 px on computers, 2048 on phones and tablets)
+  const DET = { size: big ? 4096 : 2048, cx: 10, cz: 70, extent: 820 };
+  const t0 = performance.now(), detCanvas = paintGround(DET); (window.SKYPAINT ||= {}).detail = Math.round(performance.now() - t0);
+  const detTex = new THREE.CanvasTexture(detCanvas);
+  detTex.colorSpace = THREE.SRGBColorSpace; detTex.anisotropy = aniso;
+  const detail = new THREE.Mesh(new THREE.PlaneGeometry(DET.extent, DET.extent).rotateX(-Math.PI / 2),
+    new THREE.MeshLambertMaterial({ map: detTex, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -.5, polygonOffsetUnits: -1 }));
+  detail.position.set(DET.cx, 0.01, DET.cz); detail.renderOrder = .5;
+  world.add(detail);
 
   // outer ring of low-poly hills and far mountains
   const ring = new THREE.RingGeometry(DISC_R, 9000, 128, 16).rotateX(-Math.PI / 2).toNonIndexed();
@@ -268,7 +330,7 @@ export function makeWorld(scene) {
 
   // detailed grass around the landing field, faded at the edge
   const grass = new THREE.CanvasTexture(grassTile());
-  grass.colorSpace = THREE.SRGBColorSpace; grass.wrapS = grass.wrapT = THREE.RepeatWrapping; grass.repeat.set(36, 36); grass.anisotropy = 4;
+  grass.colorSpace = THREE.SRGBColorSpace; grass.wrapS = grass.wrapT = THREE.RepeatWrapping; grass.repeat.set(36, 36); grass.anisotropy = aniso;
   const alpha = new THREE.CanvasTexture(radialAlpha());
   const near = new THREE.Mesh(new THREE.PlaneGeometry(260, 260).rotateX(-Math.PI / 2),
     new THREE.MeshLambertMaterial({ map: grass, alphaMap: alpha, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 }));
@@ -277,7 +339,7 @@ export function makeWorld(scene) {
   world.add(near);
 
   // the landing target
-  const tt = new THREE.CanvasTexture(targetTexture()); tt.colorSpace = THREE.SRGBColorSpace; tt.anisotropy = 4;
+  const tt = new THREE.CanvasTexture(targetTexture()); tt.colorSpace = THREE.SRGBColorSpace; tt.anisotropy = aniso;
   const target = new THREE.Mesh(new THREE.CircleGeometry(6, 48).rotateX(-Math.PI / 2),
     new THREE.MeshLambertMaterial({ map: tt, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 }));
   target.position.set(TARGET.x, 0.06, TARGET.z);

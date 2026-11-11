@@ -59,7 +59,7 @@ sunLight.position.copy(SUN).multiplyScalar(100);
 scene.add(sunLight);
 
 const sky = makeSky(); scene.add(sky);
-const W = makeWorld(scene);
+const W = makeWorld(scene, renderer);
 const clouds = makeClouds(scene, START_ALT);
 const birds = makeBirds(scene);
 const plane = makePlane(); scene.add(plane);
@@ -605,10 +605,13 @@ function animateFox(dt) {
   fox.root.position.set(F.x, F.y, F.z);
   if (p === 'menu' || p === 'intro' || p === 'play' || p === 'loading') {
     w.dive = damp(w.dive, S.diving, 6, dt);
-    let roll = clamp(-F.vx * 0.085, -0.6, 0.6) + 0.05 * Math.sin(S.time * 1.7);
+    // in the dive he is turned round (head up the screen, feet toward the rings); he turns as he jumps out,
+    // so on the start screen he still flies toward you. sg flips the steering lean to match.
+    const spin = p === 'play' ? Math.PI : p === 'intro' ? Math.PI * easeInOut(clamp((S.pt - 0.15) / 1.4, 0, 1)) : 0, sg = spin > Math.PI / 2 ? -1 : 1;
+    let roll = sg * clamp(-F.vx * 0.085, -0.6, 0.6) + 0.05 * Math.sin(S.time * 1.7);
     if (p === 'intro') roll += Math.PI * 2 * easeInOut((S.pt - 0.35) / 1.3); // a happy barrel roll
-    const yaw = clamp(F.vx * 0.04, -0.3, 0.3);
-    const pitch = Math.PI / 2 - clamp(F.vz * 0.06, -0.2, 0.2) + 0.04 * Math.sin(S.time * 1.3);
+    const yaw = spin + sg * clamp(F.vx * 0.04, -0.3, 0.3);
+    const pitch = Math.PI / 2 - sg * clamp(F.vz * 0.06, -0.2, 0.2) + 0.04 * Math.sin(S.time * 1.3);
     euler.set(pitch, 0, 0, 'YXZ'); qFree.setFromEuler(euler);
     qRoll.setFromAxisAngle(Z_AXIS, roll); qYaw.setFromAxisAngle(Y_AXIS, yaw);
     fox.body.quaternion.copy(qYaw).multiply(qRoll).multiply(qFree);
