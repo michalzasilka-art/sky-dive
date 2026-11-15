@@ -5,7 +5,7 @@ import { SETS } from './words.js';
 import { makeSky, makeWorld, makeClouds, makeBirds, updateBirds, makePlane, TARGET, FOG_COLOR, SUN } from './world.js';
 import { makeRing, updateRing, setRingState, RING_R } from './rings.js';
 import { makeStreaks, makeBursts } from './fx.js';
-import { loadFoxino, makeParachute } from './foxino.js';
+import { loadFoxino, makeParachute } from './foxino.js?v=2';
 import { sfx, unlock, wind, setMuted, isMuted } from './sound.js';
 
 const $ = (id) => document.getElementById(id);
@@ -806,7 +806,7 @@ function frame(now) {
 async function init() {
   renderTopics();
   try {
-    fox = await loadFoxino('models/foxino.glb?v=1', (e) => {
+    fox = await loadFoxino('models/foxino.glb?v=2', (e) => {
       if (e.total) $('loadFill').style.width = Math.round(10 + 85 * e.loaded / e.total) + '%';
     });
   } catch (err) {

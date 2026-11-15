@@ -1,7 +1,8 @@
-// Foxino: loads the rigged F1-helmet model and poses him in code (aim-the-bone poses + blending),
+// Foxino: loads the rigged skydiver model (2026-11-15: the user's Tripo Foxino with goggles, harness and backpack, rigged in scratch rig.py) and poses him in code (aim-the-bone poses + blending),
 // plus the parachute (ram-air canopy, lines and risers) built from code geometry.
 import * as THREE from './lib/three.module.min.js';
 import { GLTFLoader } from './lib/GLTFLoader.js';
+import { MeshoptDecoder } from './lib/meshopt_decoder.module.js'; // the 2026-11-15 model is meshopt-compressed
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z).normalize();
 const CHILD = {
@@ -105,7 +106,7 @@ function computePose(root, bones, rest, spec) {
 }
 
 export async function loadFoxino(url, onProgress) {
-  const gltf = await new GLTFLoader().loadAsync(url, onProgress);
+  const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(url, onProgress);
   const model = gltf.scene;
   const bones = {};
   model.traverse((o) => {
