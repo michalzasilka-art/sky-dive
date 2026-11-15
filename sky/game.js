@@ -806,7 +806,7 @@ function frame(now) {
 async function init() {
   renderTopics();
   try {
-    fox = await loadFoxino('models/foxino.glb?v=2', (e) => {
+    fox = await loadFoxino('models/foxino.glb?v=3', (e) => {
       if (e.total) $('loadFill').style.width = Math.round(10 + 85 * e.loaded / e.total) + '%';
     });
   } catch (err) {
